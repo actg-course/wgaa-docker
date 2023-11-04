@@ -1,0 +1,35 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+  - anaconda
+dependencies:
+  - python >=3.3
+  - biopython
+  - gemoma ==1.6.4
+  - perl
+  - perl-app-cpanminus
+  - perl-hash-merge
+  - perl-parallel-forkmanager
+  - perl-scalar-util-numeric
+  - perl-yaml
+  - perl-class-data-inheritable
+  - perl-exception-class
+  - perl-test-pod
+  - perl-file-homedir
+  - perl-file-which
+  - perl-file-spec
+  - perl-list-moreutils
+  - perl-logger-simple
+  - perl-math-utils
+  - perl-module-load-conditional
+  - perl-posix
+  - perl-mce
+  - augustus >=3.4.0
+  - bamtools >=2.5.1
+  - samtools >=1.7
+  - spaln >=2.3.3
+  - makehub
+  - cdbtools >=0.99
+  - genomethreader >=1.7.0
+  - diamond >=0.9.24
