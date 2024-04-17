@@ -26,6 +26,7 @@ TRINITY_VERSION=2.13.2
 BLAST_VERSION=2.14.0
 KRAKEN_VERSION=2.1.3
 BIOPYTHON_VERSION=1.81
+MERYL_VERSION=1.4.1
 
 all: build-all
 build-all: fastqc-build r-base-build sra-tools-build fastp-build \
@@ -33,19 +34,43 @@ build-all: fastqc-build r-base-build sra-tools-build fastp-build \
 	bedtools-build repeatmasker-build yahs-build multiqc-build \
 	hic_qc-build novoplasty-build busco-build braker-build \
 	edta-build juicer-build emboss-build pasa-build trinity-build \
-	blast-build kraken-build python
+	blast-build kraken-build python meryl-build
 push-all: fastqc-push r-base-push sra-tools-push fastp-push \
 	samtools-push bwa-push jellyfish-push hifiasm-push mummer-push \
 	bedtools-push repeatmasker-push yahs-push multiqc-push \
 	hic_qc-push novoplasty-push busco-push braker-push \
 	edta-push juicer-push emboss-push pasa-push trinity-push \
-	blast-push kraken-push biopython-push
+	blast-push kraken-push biopython-push meryl-push
 test-all: fastqc-test r-base-test sra-tools-test fastp-test \
 	samtools-test bwa-test jellyfish-test hifiasm-test mummer-test \
 	bedtools-test repeatmasker-test yahs-test multiqc-test \
 	hic_qc-test novoplasty-test busco-test braker-test \
 	edta-test juicer-test emboss-test pasa-test trinity-test \
-	blast-test kraken-test biopython-test
+	blast-test kraken-test biopython-test meryl-test
+
+
+#
+# Meryl
+#
+meryl: meryl-build
+meryl-build:
+	mkdir -p build/meryl; \
+	cd build/meryl; \
+	cp ../../dockerfile-meryl ./Dockerfile; \
+	docker build --build-arg VERSION=${MERYL_VERSION} -t systemsgenetics/actg-wgaa-meryl:$(MERYL_VERSION) .
+
+meryl-push: meryl-build
+	cd build/meryl; \
+	docker push systemsgenetics/actg-wgaa-meryl:$(MERYL_VERSION)
+
+meryl-test:
+	docker run -it -u 0 systemsgenetics/actg-wgaa-meryl:$(MERYL_VERSION) \
+	meryl -version
+
+meryl-run:
+	docker run -it -u 0 systemsgenetics/actg-wgaa-meryl:$(MERYL_VERSION) /bin/bash
+
+
 
 #
 # Python
@@ -85,7 +110,7 @@ kraken-push: kraken-build
 
 kraken-test:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-kraken:$(KRAKEN_VERSION) \
-	  kraken2 -version
+	kraken2 -version
 
 kraken-run:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-kraken:$(KRAKEN_VERSION) /bin/bash
@@ -108,7 +133,7 @@ blast-push: blast-build
 
 blast-test:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-blast:$(BLAST_VERSION) \
-	  blastn -version
+	blastn -version
 
 blast-run:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-blast:$(BLAST_VERSION) /bin/bash
@@ -202,7 +227,7 @@ mitohifi-push: mitohifi-build
 
 mitohifi-test:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-mitohifi:$(MITOHIFI_VERSION) \
-	  mitohifi.py --version
+	mitohifi.py --version
 
 mitohifi-run:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-mitohifi:$(MITOHIFI_VERSION) /bin/bash
@@ -225,7 +250,7 @@ juicer-push: juicer-build
 
 juicer-test:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-juicer:$(JUICER_VERSION) \
-	  java -Xmx32G -jar /usr/local/bin/juicer/juicer_tools_$(JUICER_VERSION).jar --version | grep Version
+	java -Xmx32G -jar /usr/local/bin/juicer/juicer_tools_$(JUICER_VERSION).jar --version | grep Version
 
 juicer-run:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-juicer:$(JUICER_VERSION) /bin/bash
