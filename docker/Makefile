@@ -27,6 +27,10 @@ BLAST_VERSION=2.14.0
 KRAKEN_VERSION=2.1.3
 BIOPYTHON_VERSION=1.81
 MERYL_VERSION=1.4.1
+# The following are all needed for GeneSpace
+ORTHOFINDER_VERSION=2.5.5
+MCSCANX_VERSION=b1ca533
+GENESPACE_VERSION=1.2.3
 
 all: build-all
 build-all: fastqc-build r-base-build sra-tools-build fastp-build \
@@ -47,6 +51,33 @@ test-all: fastqc-test r-base-test sra-tools-test fastp-test \
 	hic_qc-test novoplasty-test busco-test braker-test \
 	edta-test juicer-test emboss-test pasa-test trinity-test \
 	blast-test kraken-test biopython-test meryl-test
+
+
+
+#
+# GeneSpace
+#
+genespace: genespace-build
+genespace-build:
+	mkdir -p build/genespace; \
+	cd build/genespace; \
+	cp ../../dockerfile-genespace ./Dockerfile; \
+	docker build --build-arg ORTHOFINDER_VERSION=${ORTHOFINDER_VERSION} \
+	  --build-arg MCSCANX_VERSION=${MCSCANX_VERSION} \
+	  --build-arg GENESPACE_VERSION=${GENESPACE_VERSION} \
+	  -t systemsgenetics/actg-wgaa-genespace:$(GENESPACE_VERSION) .
+
+genespace-push: genespace-build
+	cd build/genespace; \
+	docker push systemsgenetics/actg-wgaa-genespace:$(GENESPACE_VERSION)
+
+genespace-test:
+	docker run -it -u 0 systemsgenetics/actg-wgaa-genespace:$(GENESPACE_VERSION) \
+	Rscript -e "library(GENESPACE)" 
+
+genespace-run:
+	docker run -it -u 0 systemsgenetics/actg-wgaa-genespace:$(GENESPACE_VERSION) /bin/bash
+
 
 
 #
