@@ -7,6 +7,14 @@ build:
 	# Build the Docker image
 	docker build -t systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) .
 
+push: build
+	docker push systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION)
+
+test:
+	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) ${IMAGE_NAME} --version
+
+run:
+	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) /bin/bash
+
 clean:
-	# Remove dynamically generated files
 	rm -f environment.yml

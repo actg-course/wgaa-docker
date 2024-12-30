@@ -1,0 +1,7 @@
+name: {{SOFTWARE}}-{{VERSION}}
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::{{SOFTWARE}}={{VERSION}}
