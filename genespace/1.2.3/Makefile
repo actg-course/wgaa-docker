@@ -15,7 +15,7 @@ push: build
 	docker push systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION)
 
 test:
-	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) ${IMAGE_NAME} Rscript -e "library(GENESPACE)" 
+	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) Rscript -e "library(GENESPACE)" 
 
 run:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) /bin/bash

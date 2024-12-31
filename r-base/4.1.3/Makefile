@@ -11,7 +11,7 @@ push: build
 	docker push systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION)
 
 test:
-	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) jellyfish --version
+	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) R --version | grep version
 
 run:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) /bin/bash
