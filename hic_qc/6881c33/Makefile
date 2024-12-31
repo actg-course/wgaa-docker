@@ -2,16 +2,14 @@ IMAGE_NAME=$(notdir $(shell dirname $(CURDIR)))
 VERSION=$(notdir $(CURDIR))
 
 build:
-	cp environment.template.yml environment.yml; \
 	docker build --build-arg VERSION=${VERSION} -t systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) .
 
 push: build
 	docker push systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION)
 
 test:
-	docker run -it -u 0 systemsgenetics/actg-wgaa-juicer:$(VERSION) \
-	java -Xmx32G -jar /usr/local/bin/juicer/juicer_tools_$(VERSION).jar --version | grep Version
-
+	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) \
+	  /root/.bashrc && conda activate hic_qc && hic_qc.py --version
 
 run:
 	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) /bin/bash
