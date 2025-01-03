@@ -1,3 +1,6 @@
+This repository contains the docker images used by the ACTG course Thes are already available for use via Docker or Singularity here: https://hub.docker.com/orgs/systemsgenetics/repositories
+
+
 Current Tool Names
 ==================
 The following is a list of tool names currently supported by this Makefile
@@ -48,46 +51,43 @@ The following is a list of tool names currently supported by this Makefile
 | yahs | 1.2.2 |
 | yahs | 1.2a.2-0 |
 
-
-
-
-Building, Testing, Running and Pushing
-======================================
+Building, Testing Pushing All
+=============================
 To build all docker images:
 ```bash
 make
 ```
 
-To build a specific tool's image
+To test that all images are working run the following run the following:
 ```bash
-make <toolname>
+make test
 ```
-
-To test that all images are working run the following and check the output from each tool:
-```bash
-make test-all
-```
-
-To test a specific tool's image
-```bash
-make <toolname>-test
-```
+The version of the software should be printed to the screen. This test only ensures the software can be run, no that it is working as expected.
 
 To push all docker images to DockerHub
 ```bash
-make push-all
+make push
 ```
 
-To push a specific tool's image
+Building, Testing Pushing Single Tool
+=====================================
+You can build, test, push and run a single tool by changing to the tool directory, then to the toll version firset and then running the following commands.
+
+
+To build the tool
 ```bash
-make <toolname>-push
+make
 ```
 
-To run a tool in interactive mode
+To test the tool
 ```bash
-make <toolname>-run
+make test
 ```
-
-Changing Tool Versions
-======================
-To change the version of any software tool, edit the Makefile, find the appropriate variable for the tool and set the versionFor most tools you need the tag from bioconda and rebuild the tool.
+To push the tool to DockerHub
+```bash
+make push
+```
+To run in interactive mode
+```bash
+make run
+```

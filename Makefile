@@ -15,8 +15,14 @@ build:
 
 test:
 	@for dir in $(SUBDIRS); do \
-		echo "Building in $$dir..."; \
+		echo "Testing in $$dir..."; \
 		$(MAKE) -C $$dir test || exit 1; \
+	done
+
+push:
+	@for dir in $(SUBDIRS); do \
+		echo "Pushing in $$dir..."; \
+		$(MAKE) -C $$dir push || exit 1; \
 	done
 
 # Clean everything
