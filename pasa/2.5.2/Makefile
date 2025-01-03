@@ -7,10 +7,10 @@ build:
 push: build
 	docker push systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION)
 
-test:
+test: build
 	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) Launch_PASA_pipeline.pl --version
 
-run:
+run: build
 	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) /bin/bash
 
 clean:

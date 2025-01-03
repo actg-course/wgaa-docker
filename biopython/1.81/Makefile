@@ -8,10 +8,10 @@ build:
 push: build
 	docker push systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION)
 
-test:
+test: build
 	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) python3 -c "from importlib.metadata import version; print(version('biopython'))"
 
-run:
+run: build
 	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) /bin/bash
 
 clean:

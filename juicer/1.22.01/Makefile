@@ -8,12 +8,12 @@ build:
 push: build
 	docker push systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION)
 
-test:
+test: build
 	docker run -it -u 0 systemsgenetics/actg-wgaa-juicer:$(VERSION) \
 	java -Xmx32G -jar /usr/local/bin/juicer/juicer_tools_$(VERSION).jar --version | grep Version
 
 
-run:
+run: build
 	docker run -it -u 0 systemsgenetics/actg-wgaa-${IMAGE_NAME}:$(VERSION) /bin/bash
 
 clean:
